@@ -1,0 +1,22 @@
+{
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "express-validators": "^1.0.4",
+    "mongoose": "^8.14.1"
+  },
+  "name": "megaproject",
+  "version": "1.0.0",
+  "description": "i am creating mega backend project",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev": "node index.js"
+  },
+  "author": "i am pote",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.5.3"
+  }
+}
