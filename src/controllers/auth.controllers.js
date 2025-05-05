@@ -7,3 +7,5 @@ const userRegister = asyncHandler( async (req,res) => {
     //user register validation
 
 })
+
+export {userRegister};
