@@ -7,6 +7,7 @@ const registerUser = asyncHandler(async (req, res) => {
   // console.log(req.body);
   
   const { email, username, password, role } = req.body;
+
   // check if user is already exists if not then create one 
   const existingUser = await User.findOne({email})
   if(existingUser){
@@ -36,12 +37,12 @@ const registerUser = asyncHandler(async (req, res) => {
     email:user.email,
     subject:"Verify Email",
     mailgenContent : emailVerificationMailgenContent(
-      (await user).username,`${process.env.BASE_URL}/api/v1/varify/${hashedToken}`
+      (await user).username,`${process.env.BASE_URL}/api/v1/users/varify/${hashedToken}`
     )
   })
   return res.status(200).json(new ApiResponse(200, { message: "User register successfully"}));
   
-  //validation
+  
 });
 
 const loginUser = asyncHandler(async (req, res) => {
@@ -57,9 +58,25 @@ const logoutUser = asyncHandler(async (req, res) => {
 });
 
 const verifyEmail = asyncHandler(async (req, res) => {
-  const { email, username, password, role } = req.body;
+  const { hashedToken } = req.params;
 
-  //validation
+  if(!hashedToken){
+    return res.status(400).json(new ApiResponse(400,{message:"failed to fetch varification token"}));
+  }
+
+  const user = await User.findOne({emailVerificationToken:hashedToken});
+  if(!user){
+    return res.status(400).json(new ApiResponse(400,{message:"failed to find and match token in db"}));
+  }
+
+
+  user.emailVerificationToken = undefined;
+  user.isEmailVerified = true;
+  // user.emailVerificationExpiry = tokenExpiry;
+  await user.save();
+  
+  return res.status(200).json(new ApiResponse(200, { message: "User varify successfully"}));
+
 });
 
 const resendEmailVerification = asyncHandler(async (req, res) => {
