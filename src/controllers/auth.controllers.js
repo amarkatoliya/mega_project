@@ -1,8 +1,44 @@
 import { asyncHandler } from "../utils/async-handler.js";
+import { User } from "../models/user.models.js";
+import { ApiResponse } from "../utils/api-responce.js";
+import { emailVerificationMailgenContent, sendEmail } from "../utils/mail.js";
 
 const registerUser = asyncHandler(async (req, res) => {
-  const { email, username, password, role } = req.body;
+  console.log(req.body);
   
+  const { email, username, password, role } = req.body;
+  // check if user is already exists if not then create one 
+  const existingUser = await User.findOne({email})
+  if(existingUser){
+    return res.status(409).json(new ApiResponse(409, { message: "User is already exists"}));
+  }
+    const user = User.create({
+      username,
+      email,
+      password,
+      role
+    });
+  
+  //send temp varification token 
+  if(!user){
+    return res.status(400).json(new ApiResponse(400, { message: "User is not registerd"}));
+  }
+  
+  const token =await User.generateTemporaryToken()
+   user.emailVerificationToken = token
+  console.log(token);
+
+  (await user).save();
+
+  //send email
+  const mail = sendEmail({
+    email:user.email,
+    subject:"Verify Email",
+    mailgenContent : emailVerificationMailgenContent(
+      (await user).username,`${process.env.BASE_URL}/api/v1/varify/${token}`
+    )
+  })
+  return res.status(200).json(new ApiResponse(200, { message: "User register successfully"}));
   
   //validation
 });

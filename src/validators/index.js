@@ -12,10 +12,9 @@ const userRegisterValidator = () => {
             .isLength({min: 3}).withMessage("username shouls be atleast 3 char")    
             .isLength({max: 13}).withMessage("username shouls be atmost 13 char"),
         body("password")
-            // .isStrongPassword() 
             .notEmpty().withMessage("password is required")
-            .isLength({min: 6}).withMessage("password shouls be atleast 3 char")    
-            .isLength({max: 9}).withMessage("password shouls be atmost 13 char"),
+            .isLength({min: 5}).withMessage("password shouls be atleast 3 char")    
+            .isLength({max: 10}).withMessage("password shouls be atmost 13 char"),
         body("role")
             .default("user")
     ]

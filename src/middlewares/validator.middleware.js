@@ -4,12 +4,14 @@ import {ApiError} from "../utils/api-error.js";
 const validate = (req,res,next) => {
     const errors = validationResult(req);
 
-    console.log(typeof(errors))
+    console.log(errors)
 
     if(errors.isEmpty()){
+        console.log("done");
+        
        return next()
     }
-
+    console.log("error heey")
     const errorArray = [];
 
     errors.array().map((error)=>errorArray.push({
@@ -18,5 +20,6 @@ const validate = (req,res,next) => {
 
     throw new ApiError(422 , "recieved data is not valid",errorArray)
 };
+
 
 export {validate};
