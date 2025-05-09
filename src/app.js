@@ -15,5 +15,5 @@ app.use(cors({
   }));
 
 app.use("/api/v1/healthcheck",healthCheckRouter)
-app.use("/api/v1/",authRouter)
+app.use("/api/v1/users",authRouter)
 export default app;

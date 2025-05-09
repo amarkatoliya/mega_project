@@ -33,6 +33,7 @@ const userSchema = new Schema(
     fullName: {
       type: String,
       trim: true,
+      default:''
     },
     password: {
       type: String,
