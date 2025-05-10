@@ -26,8 +26,8 @@ const userLoginValidator = () => {
 
         body("password")
         .notEmpty().withMessage("password is required")
-        .isLength({min: 6}).withMessage("password shouls be atleast 3 char")    
-        .isLength({max: 9}).withMessage("password shouls be atmost 13 char"),
+        .isLength({min: 6}).withMessage("password shouls be atleast 6 char")    
+        .isLength({max: 9}).withMessage("password shouls be atmost 9 char"),
     ]
 }
 

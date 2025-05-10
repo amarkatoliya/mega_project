@@ -37,7 +37,7 @@ const registerUser = asyncHandler(async (req, res) => {
     email:user.email,
     subject:"Verify Email",
     mailgenContent : emailVerificationMailgenContent(
-      (await user).username,`${process.env.BASE_URL}/api/v1/users/varify/${hashedToken}`
+      await user.username,`${process.env.BASE_URL}/api/v1/users/varify/${hashedToken}`
     )
   })
   return res.status(200).json(new ApiResponse(200, { message: "User register successfully"}));
@@ -46,9 +46,30 @@ const registerUser = asyncHandler(async (req, res) => {
 });
 
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, username, password, role } = req.body;
+  const { email, password } = req.body;
 
-  //validation
+  const user = await User.findOne({email});
+  if(!user){
+    return res.status(400).json(new ApiResponse(400,{message:"User is not registered"}));
+  }
+
+   
+  const isPassMatch = await user.isPasswordCorrect(password);
+  if(!isPassMatch){
+    return res.status(400).json(new ApiResponse(400,{message:"password is not matched"}));
+  };
+
+  const refreshToken = await user.generateRefreshToken();
+  console.log(refreshToken);
+
+  const cookieOption = {
+    httpOnly:true,
+    secure:true,
+    maxAge:24*60*60*1000  //24 hour
+  }
+  res.cookie("refreshToken",refreshToken,cookieOption);
+  res.status(200).json(new ApiResponse(200,{message:"user login succesfully"}));
+
 });
 
 const logoutUser = asyncHandler(async (req, res) => {

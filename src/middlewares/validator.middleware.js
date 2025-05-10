@@ -7,7 +7,7 @@ const validate = (req,res,next) => {
     console.log(errors)
 
     if(errors.isEmpty()){
-        console.log("done");
+        // console.log("done");
         
        return next()
     }
