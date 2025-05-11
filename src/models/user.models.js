@@ -43,7 +43,14 @@ const userSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    isrestPassEmailVerified: {
+      type: Boolean,
+      default: false,
+    },
     refreshToken: {
+      type: String,
+    },
+    accessToken: {
       type: String,
     },
     forgotPasswordToken: {
