@@ -1,7 +1,8 @@
 
 import { Router } from "express";
 
-import {forgotPasswordRequest,
+import {changeCurrentPassword, 
+        forgotPasswordRequest,
         loginUser,
         logoutUser,
         registerUser,
@@ -22,6 +23,7 @@ router.route("/logout").post(logoutUser);
 router.route("/forgetPass").post(forgotPasswordRequest);
 router.route("/varifyPass/:hashedToken").post(resetForgottenPasswordVarify)
 router.route("/resetPass").post(resetForgottenPassword);
+router.route("/changePass").post(changeCurrentPassword);
 
 
 export default router;

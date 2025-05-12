@@ -3,6 +3,7 @@ import { User } from "../models/user.models.js";
 import { ApiResponse } from "../utils/api-responce.js";
 import { emailVerificationMailgenContent, sendEmail } from "../utils/mail.js";
 import { subtle } from "crypto";
+import { error } from "console";
 
 const registerUser = asyncHandler(async (req, res) => {
   // console.log(req.body);
@@ -27,8 +28,8 @@ const registerUser = asyncHandler(async (req, res) => {
   }
   
   const {unHashedToken, hashedToken, tokenExpiry} = await user.generateTemporaryToken()
-   user.emailVerificationToken = hashedToken;
-   user.emailVerificationExpiry = tokenExpiry;
+  user.emailVerificationToken = hashedToken;
+  user.emailVerificationExpiry = tokenExpiry;
   console.log(hashedToken);
 
   await user.save();
@@ -107,7 +108,6 @@ const resendEmailVerification = asyncHandler(async (req, res) => {
   //validation
 });
 
-
 const resetForgottenPassword = asyncHandler(async (req, res) => {
   const { email, confpass, password } = req.body;
 
@@ -131,7 +131,6 @@ const resetForgottenPassword = asyncHandler(async (req, res) => {
 
   return res.status(200).json(new ApiResponse(200,{message:"succesfully password reset"}));
 });
-
 
 const resetForgottenPasswordVarify = asyncHandler(async (req, res) => {
   const { hashedToken } = req.params;
@@ -186,19 +185,31 @@ const forgotPasswordRequest = asyncHandler(async (req, res) => {
 });
 
 const changeCurrentPassword = asyncHandler(async (req, res) => {
-  const { email, username, password, role } = req.body;
+  const { email, password } = req.body;
 
-  //validation
+  if(!email ||!password){
+    throw new ApiResponse(400,{message:"all feilds are required"},error);
+  }
+
+  const user = await User.findOne({email});
+  if(!user){
+    throw new ApiResponse(400,{message:"user not found"},error);
+  }
+
+  ;(await user).password = password;
+  await user.save();
+  
+  res.status(200).json(new ApiResponse(200,{message:"succesfully password updated"},error))
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
-  const token = req.cookie?.refreshToken;
+  const {token} = req.cookie.accessToken;
 
   if(!token){
    return res.status(400).json(new ApiResponse(400, { message: "auth failed because of token"}));
   }
   
-
+  const user = User.
 });
 
 export {
