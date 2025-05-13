@@ -1,24 +1,32 @@
-// boilderplate code
+import {ApiResponse} from "../utils/api-responce.js";
+import {asyncHandler} from "../utils/async-handler.js";
+import{ProjectNote} from "../models/note.models.js";
 
-const getNotes = async (req, res) => {
+  const getNotes = asyncHandler(async (req, res) => {
+    const {projectId} = req.params.projectId
+    console.log(projectId)
+
+    const projectNotes = await ProjectNote.findById(projectId)
+    console.log("hii")
+    console.log(projectNotes);
+    
+  });
+  
+  const getNoteById = asyncHandler(async (req, res) => {
     // get all notes
-  };
+  });
   
-  const getNoteById = async (req, res) => {
-    // get note by id
-  };
+  const createNote = asyncHandler(async (req, res) => {
+    // get all notes
+  });
   
-  const createNote = async (req, res) => {
-    // create note
-  };
+  const updateNote = asyncHandler(async (req, res) => {
+    // get all notes
+  });
   
-  const updateNote = async (req, res) => {
-    // update note
-  };
-  
-  const deleteNote = async (req, res) => {
-    // delete note
-  };
+  const deleteNote = asyncHandler(async (req, res) => {
+    // get all notes
+  });
   
   export { createNote, deleteNote, getNoteById, getNotes, updateNote };
   
