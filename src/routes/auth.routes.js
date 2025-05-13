@@ -3,6 +3,7 @@ import { Router } from "express";
 
 import {changeCurrentPassword, 
         forgotPasswordRequest,
+        getCurrentUser,
         loginUser,
         logoutUser,
         registerUser,
@@ -13,6 +14,7 @@ import {changeCurrentPassword,
 
 import {validate} from "../middlewares/validator.middleware.js";
 import {userLoginValidator, userRegisterValidator} from "../validators/index.js";
+import { isLoggedIn } from "../middlewares/isLoggedin.middleware.js";
 
 const router = Router();
 
@@ -24,6 +26,7 @@ router.route("/forgetPass").post(forgotPasswordRequest);
 router.route("/varifyPass/:hashedToken").post(resetForgottenPasswordVarify)
 router.route("/resetPass").post(resetForgottenPassword);
 router.route("/changePass").post(changeCurrentPassword);
+router.route("/getUser").get(isLoggedIn,getCurrentUser);
 
 
 export default router;

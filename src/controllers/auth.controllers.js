@@ -203,13 +203,15 @@ const changeCurrentPassword = asyncHandler(async (req, res) => {
 });
 
 const getCurrentUser = asyncHandler(async (req, res) => {
-  const {token} = req.cookie.accessToken;
 
-  if(!token){
-   return res.status(400).json(new ApiResponse(400, { message: "auth failed because of token"}));
-  }
+  const user = await User.findById(req.user._id).select("-password");
+  console.log(user);
   
-  const user = User.
+  if(!user){
+   return res.status(400).json(new ApiResponse(400, { message: "user not found in database"}));
+  }
+
+
 });
 
 export {
