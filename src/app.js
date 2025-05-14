@@ -18,5 +18,5 @@ app.use(cors({
 
 app.use("/api/v1/healthcheck",healthCheckRouter)
 app.use("/api/v1/users",authRouter)
-app.use("/api/v1/users",noteRouter)
+app.use("/api/v1/note",noteRouter)
 export default app;
