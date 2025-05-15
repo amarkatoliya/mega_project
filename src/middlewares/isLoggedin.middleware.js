@@ -9,7 +9,7 @@ dotenv.config({
 export const isLoggedIn = async (req, res, next) => {
   try {
     let token = req.cookies.accessToken;
-    console.log(token);
+    // console.log(token);
     if (!token) {
       return res.status(401).json({
         success: false,
@@ -17,7 +17,7 @@ export const isLoggedIn = async (req, res, next) => {
       });
     }
     const decode = await jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
-    console.log("decode");
+    // console.log("decode");
     req.user = decode;
   } catch (error) {
     console.log("Auth middleware failure");

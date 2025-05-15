@@ -40,13 +40,11 @@ const createNote = asyncHandler(async (req, res) => {
     throw new ApiResponse(400, { message: "note is not created" });
   }
   await newNote.save();
-  return res
-    .status(201)
-    .json(
-      new ApiResponse(201, newNote, {
-        message: "new note created succesfully",
-      }),
-    );
+  return res.status(201).json(
+    new ApiResponse(201, newNote, {
+      message: "new note created succesfully",
+    }),
+  );
 });
 
 const updateNote = asyncHandler(async (req, res) => {
