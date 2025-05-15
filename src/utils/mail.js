@@ -21,12 +21,12 @@ const sendEmail = async (options) => {
   const transporter = nodemailer.createTransport({
     host: process.env.MAILTRAP_HOST,
     port: process.env.MAILTRAP_PORT,
-    secure: false,    // true for port 465, false for other ports
+    secure: false, // true for port 465, false for other ports
     auth: {
       user: process.env.MAILTRAP_USERNAME,
       pass: process.env.MAILTRAP_PASSWORD,
     },
-});
+  });
 
   const mail = {
     from: "mail.taskmanager@example.com", // We can name this anything. The mail will go to your Mailtrap inbox
@@ -48,7 +48,6 @@ const sendEmail = async (options) => {
   }
 };
 
-
 const emailVerificationMailgenContent = (username, verificationUrl) => {
   return {
     body: {
@@ -68,7 +67,6 @@ const emailVerificationMailgenContent = (username, verificationUrl) => {
     },
   };
 };
-
 
 const forgotPasswordMailgenContent = (username, passwordResetUrl) => {
   return {
