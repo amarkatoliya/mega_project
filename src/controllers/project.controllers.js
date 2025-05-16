@@ -1,5 +1,7 @@
 import { Project } from "../models/project.models.js";
 import { ApiResponse } from "../utils/api-responce.js";
+import { ProjectMember } from "../models/projectmember.models.js";
+
 import mongoose from "mongoose";
 
 const getProjects = async (req, res) => {
@@ -7,7 +9,19 @@ const getProjects = async (req, res) => {
 };
 
 const getProjectById = async (req, res) => {
-  // get project by id
+  const projectId = req.params.id;
+
+  if (!projectId) {
+    throw new ApiResponse(400, null, "projectId not found");
+  }
+
+  const id = await Project.findById(projectId);
+
+  if (!id) {
+    throw new ApiResponse(400, null, "projectId not matched in db");
+  }
+
+  return res.status(200).json(new ApiResponse(200, id, "Here is your project"));
 };
 
 const createProject = async (req, res) => {
