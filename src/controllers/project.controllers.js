@@ -5,7 +5,21 @@ import { ProjectMember } from "../models/projectmember.models.js";
 import mongoose from "mongoose";
 
 const getProjects = async (req, res) => {
-  // get all projects
+  const projectId = req.params.id;
+
+  if (!projectId) {
+    throw new ApiResponse(400, null, "projectId not found");
+  }
+
+  const projects = await Project.find(projectId);
+
+  if (!projects) {
+    throw new ApiResponse(400, null, "project not found in db");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, projects, "succesfully found all project"));
 };
 
 const getProjectById = async (req, res) => {
