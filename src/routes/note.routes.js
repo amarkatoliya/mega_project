@@ -9,7 +9,7 @@ import {
 
 const router = Router();
 
-router.route("/getNote/:projectId").get(getNotes);
+router.route("/getNote/:id").get(getNotes);
 router.route("/create-note").post(createNote);
 router.route("/delete/:id").delete(deleteNote);
 router.route("/update-note/:id").patch(updateNote);

@@ -4,11 +4,22 @@ import { ProjectNote } from "../models/note.models.js";
 import mongoose from "mongoose";
 
 const getNotes = asyncHandler(async (req, res) => {
-  // const {projectId} = req.params.projectId
+  const projectId = req.params.id;
   // console.log(projectId)
-  // const projectNotes = await ProjectNote.findById(projectId)
-  // console.log("hii")
-  // console.log(projectNotes);
+
+  if (!projectId) {
+    throw new ApiResponse(400, null, "id not found from params");
+  }
+
+  const projectNotes = await ProjectNote.find(projectId);
+
+  if (!projectNotes) {
+    throw new ApiResponse(400, null, "projectId not found in DB");
+  }
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, projectNotes, "here all projects"));
 });
 
 const getNoteById = asyncHandler(async (req, res) => {
