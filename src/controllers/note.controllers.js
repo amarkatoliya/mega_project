@@ -5,7 +5,6 @@ import mongoose from "mongoose";
 
 const getNotes = asyncHandler(async (req, res) => {
   const projectId = req.params.id;
-  // console.log(projectId)
 
   if (!projectId) {
     throw new ApiResponse(400, null, "id not found from params");
@@ -59,7 +58,7 @@ const createNote = asyncHandler(async (req, res) => {
 });
 
 const updateNote = asyncHandler(async (req, res) => {
-  console.log(req.params.id);
+  // console.log(req.params.id);
   const { content } = req.body;
 
   const updatedNote = await ProjectNote.findByIdAndUpdate(req.params.id, {
@@ -77,6 +76,7 @@ const deleteNote = asyncHandler(async (req, res) => {
   const noteId = req.params.id;
 
   // Optional: Check if it's a valid ObjectId
+
   if (!mongoose.Types.ObjectId.isValid(noteId)) {
     return res
       .status(400)
